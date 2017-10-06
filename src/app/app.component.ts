@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app';
+  todoCollectionRef: AngularFirestoreCollection<any>;
+
+  constructor(private db: AngularFirestore) {
+    this.todoCollectionRef = this.db.collection<any>('todos');
+  }
 }
