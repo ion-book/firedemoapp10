@@ -7,7 +7,6 @@
       <br>{{template}}<br><br>
       <md-input-container class="full-width">
         <input mdInput [placeholder]="placeholder"
-               [(ngModel)]="value"
                (keyup.enter)="emitValue(value)"
                (keyup.escape)="emitValue(null)"/>
       </md-input-container>
