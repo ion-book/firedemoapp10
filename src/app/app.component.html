@@ -1,1 +1,44 @@
-<button mat-button>Click me!</button>
+<mat-card class="todoapp">
+    <mat-toolbar color="primary">
+      <h3>fire-todo</h3>
+      <span class="fill-space"></span>
+      <button mat-fab class="fab-add" (click)="todoDialog()">
+        +
+      </button>
+    </mat-toolbar>
+  
+    <mat-card-content>
+      <mat-list>
+        <form>
+          <mat-list-item *ngFor="let todo of todo$ | async" class="list-item">
+  
+            <mat-checkbox color="primary" type="checkbox" [name]="'todo'+todo.id" [(ngModel)]="todo.completed">
+              <span [class.completed]="todo.completed">{{todo.text}}</span>
+            </mat-checkbox>
+            <span class="fill-space"></span>
+            <span>
+             <button mat-mini-fab (click)="deleteTodo(todo)" color="primary">
+               <mat-icon>delete_forever</mat-icon>
+             </button>
+  
+             <button mat-mini-fab (click)="todoDialog(todo.id,todo)" color="primary"
+                     [disabled]="todo.completed">
+               <mat-icon>mode_edit</mat-icon>
+             </button>
+           </span>
+  
+          </mat-list-item>
+        </form>
+      </mat-list>
+    </mat-card-content>
+  </mat-card>
+  
+  
+  <app-dialog [title]="'Agregar Tarea'"
+              [template]="'Ingrese Tarea:'"
+              [placeholder]="'Que necesitas hacer?'"
+              [okText]="okButtonText"
+              [value]="fieldValue"
+              (valueEmitted)="updateTodo($event)"
+              [showPrompt]="showDialog">
+  </app-dialog>

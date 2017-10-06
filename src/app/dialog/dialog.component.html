@@ -1,19 +1,20 @@
 <div class="overlay" *ngIf="showPrompt">
-  <md-card class="modalDialog">
-    <md-toolbar color="primary">
+  <mat-card class="modalDialog">
+    <mat-toolbar color="primary">
       {{title}}
-    </md-toolbar>
-    <md-card-content>
+    </mat-toolbar>
+    <mat-card-content>
       <br>{{template}}<br><br>
-      <md-input-container class="full-width">
+      <mat-input-container class="full-width">
         <input mdInput [placeholder]="placeholder"
+              [(ngModel)]="value"
                (keyup.enter)="emitValue(value)"
                (keyup.escape)="emitValue(null)"/>
-      </md-input-container>
-    </md-card-content>
-    <md-card-actions class="center">
+      </mat-input-container>
+    </mat-card-content>
+    <mat-card-actions class="center">
       <button md-button (click)="emitValue(null)" color="primary">{{cancelText}}</button>
       <button md-raised-button (click)="emitValue(value)" color="primary">{{okText}}</button>
-    </md-card-actions>
-  </md-card>
+    </mat-card-actions>
+  </mat-card>
 </div>
