@@ -13,7 +13,7 @@
           <mat-list-item *ngFor="let todo of todo$ | async" class="list-item">
   
             <mat-checkbox color="primary" type="checkbox" [name]="'todo'+todo.id" [(ngModel)]="todo.completed">
-              <span [class.completed]="todo.completed">{{todo.text}}</span>
+              <span [class.completed]="todo.completed">{{todo.description}}</span>
             </mat-checkbox>
             <span class="fill-space"></span>
             <span>
@@ -21,7 +21,7 @@
                <mat-icon>delete_forever</mat-icon>
              </button>
   
-             <button mat-mini-fab (click)="todoDialog(todo.id,todo)" color="primary"
+             <button mat-mini-fab (click)="todoDialog(todo)" color="primary"
                      [disabled]="todo.completed">
                <mat-icon>mode_edit</mat-icon>
              </button>

@@ -1,11 +1,14 @@
 import { Component } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
+import {
+  AngularFirestore,
+  AngularFirestoreCollection
+} from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Observable';
 
 export interface Todo {
     id?: string;
     completed: boolean;
-    text: string;
+    description: string;
   }
 
 @Component({
@@ -23,7 +26,7 @@ export class AppComponent {
   okButtonText = 'Crear Tarea';
   
   constructor(private db: AngularFirestore) {
-    this.todoCollectionRef = this.db.collection<any>('todos');
+    this.todoCollectionRef = this.db.collection<any>('items');
     this.todo$ = this.todoCollectionRef.snapshotChanges().map(actions => {
       return actions.map(action => {
         const data = action.payload.doc.data() as Todo;
@@ -38,8 +41,8 @@ export class AppComponent {
     this.fieldValue = '';
     this.editingTodo = todo;
     if (todo) {
-      this.fieldValue = todo.id;
-      this.todoCollectionRef.doc(todo.id).update({ completed: !todo.completed });
+      this.fieldValue = todo.description;
+      this.todoCollectionRef.doc(todo.id).update({ description: todo.description, completed: todo.completed });
       this.okButtonText = 'Editar';
     }
     this.showDialog = true;
@@ -53,11 +56,24 @@ export class AppComponent {
 
   addTodo(todoDesc: string) {
     if (todoDesc && todoDesc.trim().length) {
-      this.todoCollectionRef.add({ text: todoDesc, completed: false });
+      this.todoCollectionRef.add({ description: todoDesc, completed: false });
     }
   }
-  updateTodo(todo: Todo) {
-    this.todoCollectionRef.doc(todo.id).update({ completed: !todo.completed });
+  updateTodo(desc) {
+    if (desc) {
+      desc = desc.trim();
+      if (this.editingTodo) {
+        this.editTodo(desc);
+      } else {
+        this.addTodo(desc);
+      }
+    }
+    this.hideDialog();
+  }
+
+  editTodo(desc:string){
+    console.log(desc);
+    this.editingTodo.description = desc;
   }
   
   deleteTodo(todo: Todo) {
